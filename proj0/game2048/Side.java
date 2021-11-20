@@ -9,7 +9,7 @@ public enum Side {
      *     as NORTH, and rows and columns (see Model) are numbered
      *     from its lower-left corner. Consider the board oriented
      *     so that side D of the board is farthest from you. Then
-     *        * (COL0*s, ROW0*s) are the standard coordinates of the
+     *        * (COL0*(s-1), ROW0*(s-1)) are the standard coordinates of the
      *          lower-left corner of the reoriented board (where s is the
      *          board size), and
      *        * If (c, r) are the standard coordinates of a certain

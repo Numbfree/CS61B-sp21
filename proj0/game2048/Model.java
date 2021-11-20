@@ -94,7 +94,7 @@ public class Model extends Observable {
         setChanged();
     }
 
-    /** Tilt the board toward SIDE. Return true iff this changes the board.
+    /** Tilt the board toward SIDE. Return true if this changes the board.
      *
      * 1. If two Tile objects are adjacent in the direction of motion and have
      *    the same value, they are merged into one Tile of twice the original
@@ -107,12 +107,51 @@ public class Model extends Observable {
      *    and the trailing tile does not.
      * */
     public boolean tilt(Side side) {
+        board.setViewingPerspective(side);
         boolean changed;
         changed = false;
 
         // TODO: Modify this.board (and perhaps this.score) to account
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
+        for (int c = board.size()-1; c >= 0; c -=1){ //Go through each column
+            int mergeRange = board.size()-1; //Setup a merge control before go through each row to avoid merge multiple times
+            for (int r = board.size()-1; r >= 0; r -=1){ //Go through each row within a column
+              if (board.tile(c,r) != null){
+                  for (int rSub = 3; rSub>r; rSub -=1){
+                      if (board.tile(c,rSub) == null){
+                          board.move(c,rSub,board.tile(c,r));
+                          changed = true;
+                          break;
+                      }
+                      else if (board.tile(c,rSub).value() == board.tile(c,r).value()){
+                          boolean checkMovable = true;
+                          for (int gapSize = rSub-r-1; gapSize>0; gapSize -=1) {
+                              if (board.tile(c, r + gapSize) != null) {
+                                  checkMovable = false;
+                              }
+                          }
+                          if (rSub> mergeRange){
+                              checkMovable = false;
+                          }
+                          if (checkMovable){
+                              score = score + 2*board.tile(c,r).value();
+                              board.move(c,rSub,board.tile(c,r));
+                              mergeRange = r;
+                              changed = true;
+                              break;
+                          }
+                          }
+
+                      }
+                  }
+
+                }
+            }
+        board.setViewingPerspective(Side.NORTH);
+
+
+
 
         checkGameOver();
         if (changed) {
@@ -138,6 +177,13 @@ public class Model extends Observable {
      * */
     public static boolean emptySpaceExists(Board b) {
         // TODO: Fill in this function.
+        for (int coli=0; coli<b.size(); coli++){
+            for (int rowi=0; rowi<b.size(); rowi++){
+                if (b.tile(coli,rowi) == null){
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -148,6 +194,16 @@ public class Model extends Observable {
      */
     public static boolean maxTileExists(Board b) {
         // TODO: Fill in this function.
+        for (int coli=0; coli<b.size(); coli++){
+            for (int rowi=0; rowi<b.size(); rowi++){
+                if (b.tile(coli,rowi) == null){
+                    continue;
+                }
+                else if(b.tile(coli,rowi).value() == MAX_PIECE){
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -159,6 +215,39 @@ public class Model extends Observable {
      */
     public static boolean atLeastOneMoveExists(Board b) {
         // TODO: Fill in this function.
+        /**
+         * Valid way 1
+         * If there is any null tile.
+         */
+        for (int coli = 0; coli < b.size(); coli++){
+            for (int rowi = 0; rowi < b.size(); rowi++){
+            if (b.tile(coli,rowi) == null) {
+                return true;
+                }
+            }
+        }
+        /**
+         * Valid way 2
+         * If there are two adjacent tiles with the same value.
+         * a. LeftOrRight
+         * b. UpOrDown
+         */
+        for (int coli = 0; coli +1< b.size(); coli++){
+            for (int rowi = 0; rowi < b.size(); rowi++){
+                if (b.tile(coli,rowi).value() == b.tile(coli+1,rowi).value()) {
+                    return true;
+                }
+            }
+        }
+        for (int coli = 0; coli< b.size(); coli++){
+            for (int rowi = 0; rowi+1 < b.size(); rowi++){
+                if (b.tile(coli,rowi).value() == b.tile(coli,rowi+1).value()) {
+                    return true;
+                }
+            }
+        }
+
+
         return false;
     }
 
