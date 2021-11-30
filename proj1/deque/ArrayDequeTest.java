@@ -40,14 +40,14 @@ public class ArrayDequeTest {
     public void reSizeTest() {
         ArrayDeque<Integer> lld1 = new ArrayDeque<Integer>();
 
-        for (int i = 0; i < 15; i += 1){
+        for (int i = 0; i < 15; i += 1) {
             lld1.addLast(i);
         }
 
 
         assertEquals(16, lld1.arrayLength(), 0);
 
-        for (int i = 0; i<14; i += 1){
+        for (int i = 0; i < 14; i += 1) {
             lld1.removeLast();
         }
         assertEquals(8, lld1.arrayLength(), 0);
@@ -99,8 +99,8 @@ public class ArrayDequeTest {
     public void multipleParamTest() {
 
 
-        ArrayDeque<String>  lld1 = new ArrayDeque<String>();
-        ArrayDeque<Double>  lld2 = new ArrayDeque<Double>();
+        ArrayDeque<String> lld1 = new ArrayDeque<String>();
+        ArrayDeque<Double> lld2 = new ArrayDeque<Double>();
         ArrayDeque<Boolean> lld3 = new ArrayDeque<Boolean>();
 
         lld1.addFirst("string");
@@ -112,7 +112,7 @@ public class ArrayDequeTest {
         boolean b = lld3.removeFirst();
 
         assertEquals("string", s);
-        assertEquals(3.14159, d,0);
+        assertEquals(3.14159, d, 0);
         assertEquals(true, b);
 
     }
@@ -152,12 +152,12 @@ public class ArrayDequeTest {
     /* Add 8 elements and test if the upsize function works propertly. */
     public void upSizeTest() {
         ArrayDeque<Integer> ad1 = new ArrayDeque<Integer>();
-        for (int i = 0; i < 8; i ++){
+        for (int i = 0; i < 8; i++) {
             ad1.addLast(i);
         }
         assertEquals(" Should have the size as expected: 16", 16.0, (double) ad1.arrayLength(), 0.0);
 
-        for (int i = 8; i < 16; i ++){
+        for (int i = 8; i < 16; i++) {
             ad1.addFirst(i);
         }
         assertEquals(" Should have the size as expected: 32", 32.0, (double) ad1.arrayLength(), 0.0);
@@ -200,4 +200,5 @@ public class ArrayDequeTest {
 
 
     }
+}
 
