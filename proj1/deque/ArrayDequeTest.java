@@ -170,13 +170,13 @@ public class ArrayDequeTest {
         ArrayDeque<Integer> ad1 = new ArrayDeque<Integer>();
         for (int i = 0; i < 8; i++) {
             ad1.addLast(i);
-            ad1.printWholeDeque();
+
         }
         assertEquals(" Should have the size as expected: 16", 16.0, (double) ad1.arrayLength(), 0.0);
 
         for (int i = 0; i < 5; i++) {
             ad1.removeFirst();
-            ad1.printWholeDeque();
+
         }
         assertEquals(" Should have the size as expected: 32", 8.0, (double) ad1.arrayLength(), 0.0);
     }
