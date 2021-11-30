@@ -40,11 +40,11 @@ public class ArrayDequeTest {
     public void reSizeTest() {
         ArrayDeque<Integer> lld1 = new ArrayDeque<Integer>();
 
-        for (int i = 0; i < 8; i += 1){
+        for (int i = 0; i < 15; i += 1){
             lld1.addLast(i);
         }
 
-        lld1.reSize();
+
         assertEquals(16, lld1.arrayLength(), 0);
 
         for (int i = 0; i<14; i += 1){
@@ -149,10 +149,43 @@ public class ArrayDequeTest {
     }
 
     @Test
+    /* Add 8 elements and test if the upsize function works propertly. */
+    public void upSizeTest() {
+        ArrayDeque<Integer> ad1 = new ArrayDeque<Integer>();
+        for (int i = 0; i < 8; i ++){
+            ad1.addLast(i);
+        }
+        assertEquals(" Should have the size as expected: 16", 16.0, (double) ad1.arrayLength(), 0.0);
+
+        for (int i = 8; i < 16; i ++){
+            ad1.addFirst(i);
+        }
+        assertEquals(" Should have the size as expected: 32", 32.0, (double) ad1.arrayLength(), 0.0);
+
+    }
+
+    @Test
+    /* Add 8 elements and then remove 4, test if the downSize() works propertly. */
+    public void downSizeTest() {
+        ArrayDeque<Integer> ad1 = new ArrayDeque<Integer>();
+        for (int i = 0; i < 8; i++) {
+            ad1.addLast(i);
+            ad1.printWholeDeque();
+        }
+        assertEquals(" Should have the size as expected: 16", 16.0, (double) ad1.arrayLength(), 0.0);
+
+        for (int i = 0; i < 5; i++) {
+            ad1.removeFirst();
+            ad1.printWholeDeque();
+        }
+        assertEquals(" Should have the size as expected: 32", 8.0, (double) ad1.arrayLength(), 0.0);
+    }
+
+    @Test
     /* Add large number of elements to deque; check if order is correct. */
     public void bigLLDequeTest() {
 
-        LinkedListDeque<Integer> lld1 = new LinkedListDeque<Integer>();
+        ArrayDeque<Integer> lld1 = new ArrayDeque<Integer>();
         for (int i = 0; i < 1000000; i++) {
             lld1.addLast(i);
         }
@@ -168,4 +201,3 @@ public class ArrayDequeTest {
 
     }
 
-}
