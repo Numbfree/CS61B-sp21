@@ -1,8 +1,5 @@
 package deque;
 
-
-import com.sun.xml.internal.xsom.XSWildcard;
-
 public class ArrayDeque<AnyType> {
 
     private AnyType[] items;
