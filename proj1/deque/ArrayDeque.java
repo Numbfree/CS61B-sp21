@@ -1,6 +1,6 @@
 package deque;
 
-public class ArrayDeque<AnyType> {
+public class ArrayDeque<AnyType> implements Deque<AnyType>{
 
     private AnyType[] items;
     private int nextFirst = 0;
@@ -79,6 +79,7 @@ public class ArrayDeque<AnyType> {
         }
     }
 
+    @Override
     public void addFirst(AnyType x) {
         items[nextFirst] = x;
         if (nextFirst == nextLast){
@@ -89,6 +90,7 @@ public class ArrayDeque<AnyType> {
         this.upSize();
     }
 
+    @Override
     public void addLast(AnyType x) {
         items[nextLast] = x;
         if (nextFirst == nextLast){
@@ -99,14 +101,12 @@ public class ArrayDeque<AnyType> {
         this.upSize();
     }
 
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
+    @Override
     public int size() {
         return size;
     }
 
+    @Override
     public void printDeque() {
         int begin  = checkCircular(nextFirst+1);
         int end = checkCircular(nextLast-1);
@@ -141,6 +141,7 @@ public class ArrayDeque<AnyType> {
     }
      */
 
+    @Override
     public AnyType removeFirst() {
         if (size == 0) {
             return null;
@@ -153,6 +154,7 @@ public class ArrayDeque<AnyType> {
         return first;
     }
 
+    @Override
     public AnyType removeLast() {
         if (size == 0) {
             return null;
@@ -165,8 +167,16 @@ public class ArrayDeque<AnyType> {
         return last;
     }
 
+    @Override
     public AnyType get(int index) {
-        return items[index];
+        int truePosition = nextFirst + index + 1;
+        if ( truePosition > items.length - 1){
+            truePosition = truePosition - items.length;
+        }
+        if (items[truePosition] == null) {
+            return null;
+        }
+        return items[truePosition];
     }
 
 }

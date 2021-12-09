@@ -1,6 +1,11 @@
 package deque;
 
+import net.sf.saxon.expr.Component;
+import net.sf.saxon.type.AnyType;
 import org.junit.Test;
+
+import java.util.Comparator;
+
 import static org.junit.Assert.*;
 
 public class ArrayDequeTest {
@@ -200,5 +205,44 @@ public class ArrayDequeTest {
 
 
     }
-}
 
+
+    @Test
+    /* Add large number of elements to deque; check if order is correct. */
+    public void getFunctionTest() {
+
+        ArrayDeque<Integer> lld1 = new ArrayDeque<Integer>();
+
+        for (int i = 0; i < 5; i++) {
+            lld1.addFirst(i);
+        }
+
+
+        int current = 0;
+
+        for (int i = 0; i < 5; i++) {
+            lld1.get(i);
+
+        }
+    }
+
+    @Test
+    /* Test the MaxArraryDeque class and max function */
+    public void MaxArraryDequeTest(){
+        MaxArrayDeque<Integer> mad1 = new MaxArrayDeque<>(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o1 - o2;
+            }
+        });
+
+        for (int i = 0; i < 1000; i++){
+            mad1.addFirst(i);
+        }
+
+        assertEquals("Should have the same value", 999, mad1.max(), 0.0);
+
+
+        }
+
+}
