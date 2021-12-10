@@ -184,7 +184,17 @@ public class ArrayDeque<AnyType> implements Deque<AnyType> {
     }
 
     public boolean equals(Object o) {
-        return o instanceof Deque;
-    }
+        boolean preRequsite = o instanceof LinkedListDeque;
+        if (preRequsite){
+            return false;
+        }
+        ArrayDeque<AnyType> newO = (ArrayDeque<AnyType>) o;
 
+        for (int i = 0; i < size(); i++){
+            if (get(i) != newO.get(i)){
+                return false;
+            }
+        }
+        return true;
+    }
 }

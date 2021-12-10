@@ -245,4 +245,26 @@ public class ArrayDequeTest {
 
         }
 
+    @Test
+    public void ArrayDequeEqaulsFunctionTest() {
+
+        ArrayDeque<Integer> lld1 = new ArrayDeque<Integer>();
+        ArrayDeque<Integer> lld2 = new ArrayDeque<Integer>();
+
+        for (int i = 0; i < 50; i++) {
+            lld1.addFirst(i);
+            lld2.addFirst(i);
+        }
+
+        assertEquals("Should have the same value", true, lld1.equals(lld2));
+
+        lld2.removeLast();
+        assertEquals("Should have the same value", false, lld1.equals(lld2));
+
+
+
+
+    }
+
+
 }
