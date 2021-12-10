@@ -1,6 +1,6 @@
 package deque;
-
-public class ArrayDeque<AnyType> implements Deque<AnyType>{
+import java.util.Iterator;
+public class ArrayDeque<AnyType> implements Deque<AnyType> {
 
     private AnyType[] items;
     private int nextFirst = 0;
@@ -9,21 +9,21 @@ public class ArrayDeque<AnyType> implements Deque<AnyType>{
     private int REFACTOR = 2;
     private double FILLFRACTION = 0.25;
 
-    public ArrayDeque(){
+    public ArrayDeque() {
         items = (AnyType[]) new Object[8];
         size  = 0;
     }
     /* check the size of array every time before add/remove. */
     public void upSize() {
-       if (size == items.length){
-           if (nextFirst < nextLast){
-               AnyType[] NewArray = (AnyType[]) new Object[size * REFACTOR];
-               System.arraycopy(items, nextFirst+1, NewArray, 0, items.length-nextFirst-1);
-               System.arraycopy(items, 0, NewArray, items.length-nextFirst-1, nextFirst+1);
-               items = NewArray;
+         if (size == items.length) {
+            if (nextFirst < nextLast) {
+               AnyType[] newArray = (AnyType[]) new Object[size * REFACTOR];
+               System.arraycopy(items, nextFirst+1, newArray, 0, items.length-nextFirst-1);
+               System.arraycopy(items, 0, newArray, items.length-nextFirst-1, nextFirst+1);
+               items = newArray;
                nextFirst = items.length - 1;
                nextLast = size;
-               NewArray = null;
+               newArray = null;
                return;
            }else {
                AnyType[] NewArray = (AnyType[]) new Object[size * REFACTOR];
@@ -177,6 +177,14 @@ public class ArrayDeque<AnyType> implements Deque<AnyType>{
             return null;
         }
         return items[truePosition];
+    }
+
+    public Iterator<AnyType> iterator() {
+        return iterator();
+    }
+
+    public boolean equals(Object o) {
+        return o instanceof Deque;
     }
 
 }

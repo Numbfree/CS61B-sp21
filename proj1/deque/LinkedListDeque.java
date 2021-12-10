@@ -1,5 +1,5 @@
 package deque;
-
+import java.util.Iterator;
 public class LinkedListDeque<AnyType> implements Deque<AnyType> {
 
     public class ItemNode {
@@ -7,7 +7,7 @@ public class LinkedListDeque<AnyType> implements Deque<AnyType> {
         public AnyType item;
         public ItemNode next;
 
-        public ItemNode(ItemNode p, AnyType i, ItemNode n){
+        public ItemNode(ItemNode p, AnyType i, ItemNode n) {
             prev = p;
             item = i;
             next = n;
@@ -119,6 +119,13 @@ public class LinkedListDeque<AnyType> implements Deque<AnyType> {
         return getRecursive(n.next,i-1);
     }
 
+    public Iterator<AnyType> iterator() {
+        return iterator();
+    }
+
+    public boolean equals(Object o) {
+        return o instanceof Deque;
+    }
 
 
 
