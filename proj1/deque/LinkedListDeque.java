@@ -1,6 +1,7 @@
 package deque;
 import java.util.Iterator;
-public class LinkedListDeque<AnyType> implements Deque<AnyType> {
+
+public class LinkedListDeque<AnyType> implements Deque<AnyType>, Iterable<AnyType> {
 
     public class ItemNode {
         public ItemNode prev;
@@ -120,7 +121,7 @@ public class LinkedListDeque<AnyType> implements Deque<AnyType> {
     }
 
     public Iterator<AnyType> iterator() {
-        return iterator();
+        return new LinkedListDequeIterator();
     }
 
     public boolean equals(Object o) {
@@ -136,6 +137,24 @@ public class LinkedListDeque<AnyType> implements Deque<AnyType> {
             }
         }
         return true;
+    }
+
+    private class LinkedListDequeIterator implements Iterator<AnyType> {
+        private ItemNode p;
+
+        LinkedListDequeIterator() {
+            p = sentinel.next;
+        }
+
+        public boolean hasNext() {
+            return p == sentinel;
+        }
+
+        public AnyType next() {
+            AnyType item = p.item;
+            p = p.next;
+            return item;
+        }
     }
 
 

@@ -13,6 +13,16 @@ import static org.junit.Assert.*;
 public class TestGuitarString  {
 
     @Test
+    public void testPluck() {
+        GuitarString aString = new GuitarString(5);
+        aString.pluck();
+        for (int i = 0; i < 5; i += 1) {
+            StdAudio.play(aString.sample());
+            aString.tic();
+        }
+    }
+
+    @Test
     public void testPluckTheAString() {
         GuitarString aString = new GuitarString(GuitarHeroLite.CONCERT_A);
         aString.pluck();
