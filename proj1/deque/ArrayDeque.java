@@ -43,6 +43,10 @@ public class ArrayDeque<AnyType> {
         nextLast = addOne(nextLast);
     }
 
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
     public int size() {
         return size;
     }

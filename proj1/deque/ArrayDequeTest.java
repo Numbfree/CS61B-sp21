@@ -66,4 +66,22 @@ public class ArrayDequeTest {
         assertEquals("Should have the same value", 305, (double) ad1.get(305), 0.0);
 
     }
+
+    @Test
+    /** Adds an item, then removes an item, and ensures that dll is empty afterwards. */
+    public void addRemoveTest() {
+
+        ArrayDeque<Integer> ad1 = new ArrayDeque<>();
+        // should be empty
+        assertTrue("lld1 should be empty upon initialization", ad1.isEmpty());
+
+        ad1.addFirst(10);
+        // should not be empty
+        assertFalse("lld1 should contain 1 item", ad1.isEmpty());
+
+        ad1.removeFirst();
+        // should be empty
+        assertTrue("lld1 should be empty after removal", ad1.isEmpty());
+
+    }
 }
