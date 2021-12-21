@@ -1,200 +1,150 @@
 package deque;
-import java.util.Iterator;
-public class ArrayDeque<AnyType> implements Deque<AnyType> {
 
+import java.util.Iterator;
+import java.util.Objects;
+
+public class ArrayDeque<AnyType> {
     private AnyType[] items;
-    private int nextFirst = 0;
-    private int nextLast = 0;
     private int size;
-    private int REFACTOR = 2;
-    private double FILLFRACTION = 0.25;
+    private int nextFirst;
+    private int nextLast;
+    private double Faction = 0.25;
+
 
     public ArrayDeque() {
         items = (AnyType[]) new Object[8];
-        size  = 0;
-    }
-    /* check the size of array every time before add/remove. */
-    public void upSize() {
-         if (size == items.length) {
-            if (nextFirst < nextLast) {
-               AnyType[] newArray = (AnyType[]) new Object[size * REFACTOR];
-               System.arraycopy(items, nextFirst+1, newArray, 0, items.length-nextFirst-1);
-               System.arraycopy(items, 0, newArray, items.length-nextFirst-1, nextFirst+1);
-               items = newArray;
-               nextFirst = items.length - 1;
-               nextLast = size;
-               newArray = null;
-               return;
-           }else {
-               AnyType[] NewArray = (AnyType[]) new Object[size * REFACTOR];
-               System.arraycopy(items, 0, NewArray, 0, size);
-               items = NewArray;
-               nextFirst = items.length - 1;
-               nextLast = size;
-               NewArray = null;
-               return;
-           }
-       }
+        size = 0;
+        nextFirst = 3;
+        nextLast = 4;
     }
 
-    public void downSize() {
-        if ((double) size/items.length < FILLFRACTION && items.length > 8){
-            int begin  = checkCircular(nextFirst+1);
-            int end = checkCircular(nextLast-1);
+    public ArrayDeque (AnyType item) {
+        items = (AnyType[]) new Object[8];
+        items[0] = item;
+        size = 1;
+        nextFirst = 2;
+        nextLast = 4;
+    }
 
-            if (begin < end){
-                AnyType[] NewArray = (AnyType[]) new Object[items.length/2];
-                System.arraycopy(items, begin, NewArray, 0, size);
-                items = NewArray;
-                nextFirst = items.length - 1;
-                nextLast = size;
-                NewArray = null;
-                return;
-            }else {
-                AnyType[] NewArray = (AnyType[]) new Object[items.length/2];
-                System.arraycopy(items, begin, NewArray, 0, items.length-1);
-                System.arraycopy(items, 0, NewArray, items.length-begin, end);
-                items = NewArray;
-                nextFirst = items.length - 1;
-                nextLast = size;
-                NewArray = null;
-                return;
-            }
+    public void addFirst(AnyType item) {
+        if (size == items.length) {
+            this.resize(size * 2);
         }
-    }
-
-    /* Function to get the current array size rather than the real deque size. */
-    public int arrayLength() {
-        return items.length;
-    }
-
-    /* convert the position from nextFirst/Last to real begin/end. */
-    public int checkCircular (int x){
-        if (x < 0) {
-            return items.length-1;
-        } else if (x > items.length - 1) {
-            return 0;
-        } else {
-            return x;
-        }
-    }
-
-    @Override
-    public void addFirst(AnyType x) {
-        items[nextFirst] = x;
-        if (nextFirst == nextLast){
-            nextLast = checkCircular(nextLast + 1);
-        }
-        nextFirst = checkCircular(nextFirst - 1);
+        items[nextFirst] = item;
         size += 1;
-        this.upSize();
+        nextFirst = minusOne(nextFirst);
     }
-
-    @Override
-    public void addLast(AnyType x) {
-        items[nextLast] = x;
-        if (nextFirst == nextLast){
-            nextFirst = checkCircular(nextFirst - 1);
+    public void addLast(AnyType item) {
+        if (size == items.length) {
+            this.resize(size * 2);
         }
-        nextLast = checkCircular(nextLast + 1);
+        items[nextLast] = item;
         size += 1;
-        this.upSize();
+        nextLast = addOne(nextLast);
     }
 
-    @Override
     public int size() {
         return size;
     }
 
-    @Override
-    public void printDeque() {
-        int begin  = checkCircular(nextFirst+1);
-        int end = checkCircular(nextLast-1);
-
-        if (begin > end) {
-            for (int i = begin; i < items.length; i += 1){
-                System.out.print(items[i] + "");
-            }
-            for (int i = 0; i < end; i += 1){
-                System.out.print(items[i] + "");
-            }
-            System.out.println("");
-            return;
-        }
-        for (int i = begin; i < nextLast; i += 1){
-            System.out.print(items[i] + "");
-        }
-        System.out.println("");
-    }
-
-    /** The function to print whole Deque. Convenient for the test.
-    public void printWholeDeque(){
-        for (int i = 0; i < items.length; i++){
-            if (items[i] == null){
-                System.out.print("null");
-            }else{
-                System.out.print(items[i]);
-            }
-            System.out.print("->");
-        }
-        System.out.println("");
-    }
-     */
-
-    @Override
     public AnyType removeFirst() {
         if (size == 0) {
             return null;
         }
-        AnyType first = items[checkCircular(nextFirst + 1)];
-        items[checkCircular(nextFirst + 1)] = null;
-        nextFirst = checkCircular(nextFirst + 1);
+
+        if ((double) size / items.length == Faction && items.length > 8) {
+            resize(items.length / 2);
+        }
+
+        nextFirst = addOne(nextFirst);
+        AnyType item = items[nextFirst];
+        items[nextFirst] = null;
         size -= 1;
-        this.downSize();
-        return first;
+        return item;
     }
 
-    @Override
     public AnyType removeLast() {
         if (size == 0) {
             return null;
         }
-        AnyType last = items[checkCircular(nextLast - 1)];
-        items[checkCircular(nextLast - 1)] = null;
-        nextLast = checkCircular(nextLast - 1);
+
+        if ((double) size / items.length == Faction && items.length > 8) {
+            resize(items.length / 2);
+        }
+
+        nextLast = minusOne(nextLast);
+        AnyType item = items[nextLast];
+        items[nextLast] = null;
         size -= 1;
-        this.downSize();
-        return last;
+        return item;
     }
 
-    @Override
     public AnyType get(int index) {
-        int truePosition = nextFirst + index + 1;
-        if ( truePosition > items.length - 1){
-            truePosition = truePosition - items.length;
-        }
-        if (items[truePosition] == null) {
+        if (size <= index || index < 0) {
             return null;
         }
-        return items[truePosition];
+        return items[(nextFirst + 1 + index) % items.length];
     }
 
-    public Iterator<AnyType> iterator() {
-        return iterator();
-    }
-
-    public boolean equals(Object o) {
-        boolean preRequsite = o instanceof LinkedListDeque;
-        if (preRequsite){
-            return false;
+    private int addOne(int number) {
+        if (number + 1 > items.length -1) {
+            return 0;
         }
-        ArrayDeque<AnyType> newO = (ArrayDeque<AnyType>) o;
+        return number + 1;
+    }
 
-        for (int i = 0; i < size(); i++){
-            if (get(i) != newO.get(i)){
-                return false;
+    private int minusOne(int number) {
+        if (number - 1 < 0) {
+            return items.length - 1;
+        }
+        return number - 1;
+    }
+
+    private void resize(int newSize) {
+        AnyType[] newItems = (AnyType[]) new Object[newSize];
+        int start = addOne(nextFirst);
+        int end = minusOne(nextLast);
+
+        if (newSize > items.length) {
+            if (end < start) {
+                System.arraycopy(items, start, newItems, newSize / 2 - 1, size - start);
+                System.arraycopy(items, 0, newItems, newSize / 2 - 1 + size - start, start);
+            }else {
+                System.arraycopy(items, 0, newItems, newSize / 2 - 1, size);
+            }
+            nextFirst = newSize / 2 - 2;
+            nextLast = newSize - 1;
+        }else {
+            if (start < end) {
+                System.arraycopy(items, start, newItems, newSize / 2 - 1, size);
+            }else {
+                System.arraycopy(items, start, newItems, newSize / 2 - 1, items.length - start);
+                System.arraycopy(items, 0, newItems, newSize / 2 - 1 + items.length - start, end + 1);
+            }
+            nextFirst = newSize / 2 - 2;
+            nextLast = newSize - 1;
+        }
+        items = newItems;
+    }
+
+    public void printDeque() {
+        int current = addOne(nextFirst);
+        for (int i = 0; i < size; i++) {
+            System.out.print(items[current] + " ");
+            current = addOne(current);
+        }
+        System.out.println();
+    }
+
+    public void printArray() {
+        for (int i = 0; i < items.length; i++) {
+            if (items[i] == null) {
+                System.out.print("n" + " ");
+            }else {
+                System.out.print(items[i] + " ");
             }
         }
-        return true;
+        System.out.println();
     }
+
 }

@@ -1,160 +1,153 @@
 package deque;
+
 import java.util.Iterator;
 
-public class LinkedListDeque<AnyType> implements Deque<AnyType>, Iterable<AnyType> {
+public class LinkedListDeque<AnyType> {
+    private class Node {
+        private Node prev;
+        private AnyType item;
+        private Node next;
 
-    public class ItemNode {
-        public ItemNode prev;
-        public AnyType item;
-        public ItemNode next;
+        Node() {
+            prev = null;
+            item = null;
+            next = null;
+        }
 
-        public ItemNode(ItemNode p, AnyType i, ItemNode n) {
+        Node(Node p, AnyType x, Node n) {
             prev = p;
-            item = i;
+            item = x;
             next = n;
         }
     }
 
-    private ItemNode sentinel;
     private int size;
+    private Node sentinel;
 
-    public LinkedListDeque(){
-        sentinel = new ItemNode(sentinel, null, sentinel);
-        sentinel.next = sentinel;
-        sentinel.prev = sentinel;
+    /**
+     * Creates an empty linked list deque
+     */
+    public LinkedListDeque() {
+        sentinel = new Node();
+        sentinel.prev = sentinel.next = sentinel;
         size = 0;
     }
 
-    public LinkedListDeque(AnyType x){
-        sentinel = new ItemNode(sentinel, null, sentinel);
-        ItemNode target = new ItemNode(sentinel, x, sentinel);
-        sentinel.next = target;
-        sentinel.prev = target;
+    /**
+     * Creates a linked list deque with item x;
+     */
+    public LinkedListDeque(AnyType x) {
+        sentinel.next = new Node(sentinel, x, sentinel);
+        sentinel.prev = sentinel.next;
         size = 1;
     }
 
-    @Override
-    public void addFirst(AnyType x){
-        ItemNode target = new ItemNode(sentinel, x, sentinel.next);
-        sentinel.next.prev = target;
-        sentinel.next = target;
+    /**
+     * Adds an item of type AnyType to the front of the deque.
+     * You can assume that item is never null.
+     */
+    public void addFirst(AnyType x) {
+        Node temp = new Node(sentinel, x, sentinel.next);
+        sentinel.next.prev = temp;
+        sentinel.next = temp;
         size += 1;
     }
 
-    @Override
-    public void addLast(AnyType x){
-        ItemNode target = new ItemNode(sentinel.prev, x, sentinel);
-        sentinel.prev.next = target;
-        sentinel.prev = target;
+    /**
+     * Adds an item of type AnyType to the end of the deque.
+     * You can assume that item is never null.
+     */
+    public void addLast(AnyType x) {
+        Node temp = new Node(sentinel.prev, x, sentinel);
+        sentinel.prev.next = temp;
+        sentinel.prev = temp;
         size += 1;
     }
 
-
-    @Override
-    public int size(){
-        return this.size;
+    /**
+     * Returns true if deque is empty, false otherwise.
+     */
+    public boolean isEmpty() {
+        return size == 0;
     }
 
-    @Override
-    public void printDeque(){
-        ItemNode print = sentinel.next;
-        int i = this.size();
-        while (i > 0){
-            System.out.print(print.item);
-            System.out.print(" ");
-            print = print.next;
-            i -= 1;
+    /**
+     * return the size of linked list deque
+     */
+    public int size() {
+        return size;
+    }
+
+    /**
+     * Prints the items in the deque from first to last, separated by a space.
+     * Once all the items have been printed, print out a new line.
+     */
+    public void printDeque() {
+        Node temp = sentinel;
+        for (int i = 0; i < size; i++) {
+            System.out.print(temp.next.item + " ");
         }
-        System.out.println("");
-
+        System.out.println();
     }
 
-    @Override
-    public AnyType removeFirst(){
-        if (size == 0){
+    /**
+     *  Removes and returns the item at the front of the deque. If no such item exists, returns null.
+     */
+    public AnyType removeFirst() {
+        if (isEmpty()) {
             return null;
         }
-        AnyType targetItem = sentinel.next.item;
+        AnyType temp = sentinel.next.item;
         sentinel.next = sentinel.next.next;
         sentinel.next.prev = sentinel;
         size -= 1;
-        return targetItem;
+        return temp;
     }
 
-    @Override
-    public AnyType removeLast(){
-        if (size == 0){
+    /**
+     * Removes and returns the item at the back of the deque. If no such item exists, returns null.
+     */
+    public AnyType removeLast() {
+        if (isEmpty()) {
             return null;
         }
-        AnyType targetItem = sentinel.prev.item;
+        AnyType temp = sentinel.prev.item;
         sentinel.prev = sentinel.prev.prev;
         sentinel.prev.next = sentinel;
         size -= 1;
-        return targetItem;
+        return temp;
     }
 
-    @Override
-    public AnyType get(int index){
-        if (index > size || index < 0){
+    /**
+     * Gets the item at the given index, where 0 is the front, 1 is the next item, and so forth.
+     * If no such item exists, returns null. Must not alter the deque!
+     */
+    public AnyType get(int index) {
+        if (index < 0 || index > size - 1) {
             return null;
         }
-        ItemNode current = sentinel.next;
-        while (index > 0){
-            current = current.next;
+        Node temp = sentinel;
+        for (int i = 0; i <= index; i++) {
+            temp = sentinel.next;
         }
-        return current.item;
+        return temp.item;
     }
 
-
-    public AnyType getRecursive(int index){
-        if (index > size || index < 0){
+    /**
+     * Same as get, but uses recursion.
+     */
+    public AnyType getRecursive(int index) {
+        if (index < 0 || index > size - 1) {
             return null;
         }
-        return getRecursive(this.sentinel.next, index);
+        return getRecursiveHelper(index, sentinel.next);
     }
 
-    private AnyType getRecursive(ItemNode n, int i){
-        if (i == 0){
-            return n.item;
+    private AnyType getRecursiveHelper(int index, Node currentNode) {
+        if (index == 0) {
+            return currentNode.item;
         }
-        return getRecursive(n.next,i-1);
-    }
-
-    public Iterator<AnyType> iterator() {
-        return new LinkedListDequeIterator();
-    }
-
-    public boolean equals(Object o) {
-        boolean preRequsite = o instanceof LinkedListDeque;
-        if (preRequsite){
-            return false;
-        }
-        LinkedListDeque<AnyType> newO = (LinkedListDeque<AnyType>) o;
-
-        for (int i = 0; i < size(); i++){
-            if (get(i) != newO.get(i)){
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private class LinkedListDequeIterator implements Iterator<AnyType> {
-        private ItemNode p;
-
-        LinkedListDequeIterator() {
-            p = sentinel.next;
-        }
-
-        public boolean hasNext() {
-            return p == sentinel;
-        }
-
-        public AnyType next() {
-            AnyType item = p.item;
-            p = p.next;
-            return item;
-        }
+        return getRecursiveHelper(index - 1, currentNode.next);
     }
 
 

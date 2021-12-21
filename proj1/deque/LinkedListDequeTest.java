@@ -14,7 +14,6 @@ public class LinkedListDequeTest {
      * && is the "and" operation. */
     public void addIsEmptySizeTest() {
 
-
         LinkedListDeque<String> lld1 = new LinkedListDeque<String>();
 
 		assertTrue("A newly initialized LLDeque should be empty", lld1.isEmpty());
@@ -93,15 +92,12 @@ public class LinkedListDequeTest {
         double d = lld2.removeFirst();
         boolean b = lld3.removeFirst();
 
-        assertEquals("string", s);
-        assertEquals(3.14159, d,0);
-        assertEquals(true, b);
-
     }
 
     @Test
     /* check if null is return when removing from an empty LinkedListDeque. */
     public void emptyNullReturnTest() {
+
 
         LinkedListDeque<Integer> lld1 = new LinkedListDeque<Integer>();
 
@@ -110,32 +106,12 @@ public class LinkedListDequeTest {
         assertEquals("Should return null when removeFirst is called on an empty Deque,", null, lld1.removeFirst());
         assertEquals("Should return null when removeLast is called on an empty Deque,", null, lld1.removeLast());
 
-
-    }
-
-    @Test
-    /* Add large number of elements to deque; check if order is correct. */
-    public void smallLLDequeTest() {
-
-        LinkedListDeque<Integer> lld1 = new LinkedListDeque<Integer>();
-        for (int i = 0; i < 5; i++) {
-            lld1.addLast(i);
-        }
-
-        for (double i = 0; i < 2; i++) {
-            assertEquals("Should have the same value", i, (double) lld1.removeFirst(), 0.0);
-        }
-
-        for (double i = 4; i > 2; i--) {
-            assertEquals("Should have the same value", i, (double) lld1.removeLast(), 0.0);
-        }
-
-
     }
 
     @Test
     /* Add large number of elements to deque; check if order is correct. */
     public void bigLLDequeTest() {
+
 
         LinkedListDeque<Integer> lld1 = new LinkedListDeque<Integer>();
         for (int i = 0; i < 1000000; i++) {
@@ -154,15 +130,18 @@ public class LinkedListDequeTest {
     }
 
     @Test
-    /* Test the getRecursive funtion */
-    public void getRecursiveTest() {
+    public void smallLLDequeTest() {
         LinkedListDeque<Integer> lld1 = new LinkedListDeque<Integer>();
-
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 10; i++) {
             lld1.addLast(i);
         }
 
-        assertEquals("Should have the same value", 1.0, (double) lld1.getRecursive(1), 0.0);
+        for (double i = 0; i < 5; i++) {
+            assertEquals("Should have the same value", i, (double) lld1.removeFirst(), 0.0);
+        }
 
+        for (double i = 9; i > 4; i--) {
+            assertEquals("Should have the same value", i, (double) lld1.removeLast(), 0.0);
+        }
     }
 }
