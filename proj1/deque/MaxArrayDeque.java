@@ -5,11 +5,8 @@ import java.util.Comparator;
 public class MaxArrayDeque<T> extends ArrayDeque<T> {
     private Comparator<T> cmp;
 
+
     public MaxArrayDeque(Comparator<T> c) {
-        size = 0;
-        items = (T[]) new Object[8];
-        nextFirst = 3;
-        nextLast = 4;
         this.cmp = c;
     }
 

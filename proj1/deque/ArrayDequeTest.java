@@ -84,4 +84,23 @@ public class ArrayDequeTest {
         assertTrue("lld1 should be empty after removal", ad1.isEmpty());
 
     }
+
+    @Test
+    public void equalTest() {
+        ArrayDeque<Integer> ad1 = new ArrayDeque<>();
+        ArrayDeque<Integer> ad2 = new ArrayDeque<>();
+
+        ad1.addLast(1);
+        ad1.addLast(2);
+        ad1.addLast(3);
+
+        ad2.addLast(1);
+        ad2.addLast(2);
+        ad2.addLast(3);
+        assertTrue("ad1 should equal to ad2", ad1.equals(ad2));
+
+
+
+
+    }
 }

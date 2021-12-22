@@ -34,15 +34,6 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     }
 
     /**
-     * Creates a linked list deque with item x;
-     */
-    public LinkedListDeque(T x) {
-        sentinel.next = new Node(sentinel, x, sentinel);
-        sentinel.prev = sentinel.next;
-        size = 1;
-    }
-
-    /**
      * Adds an item of type T to the front of the deque.
      * You can assume that item is never null.
      */
@@ -102,7 +93,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
         if (!(o instanceof LinkedListDeque)) {
             return false;
         }
-        LinkedListDeque<?> lld = (LinkedListDeque<?>) o;
+        LinkedListDeque<T> lld = (LinkedListDeque<T>) o;
         if (lld.size() != size) {
             return false;
         }
@@ -117,10 +108,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     /**
      * Returns true if deque is empty, false otherwise.
      */
-    @Override
-    public boolean isEmpty() {
-        return size == 0;
-    }
+
 
     /**
      * return the size of linked list deque

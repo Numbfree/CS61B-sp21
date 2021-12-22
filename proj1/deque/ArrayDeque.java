@@ -3,25 +3,17 @@ package deque;
 import java.util.Iterator;
 
 public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
-    protected T[] items;
-    protected int size;
-    protected int nextFirst;
-    protected int nextLast;
-    protected double facTion = 0.25;
+    private T[] items;
+    private int size;
+    private int nextFirst;
+    private int nextLast;
+    private double facTion = 0.25;
 
 
     public ArrayDeque() {
         items = (T[]) new Object[8];
         size = 0;
         nextFirst = 3;
-        nextLast = 4;
-    }
-
-    public ArrayDeque(T item) {
-        items = (T[]) new Object[8];
-        items[0] = item;
-        size = 1;
-        nextFirst = 2;
         nextLast = 4;
     }
 
@@ -45,10 +37,6 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         nextLast = addOne(nextLast);
     }
 
-    @Override
-    public boolean isEmpty() {
-        return size == 0;
-    }
 
     @Override
     public int size() {
@@ -130,7 +118,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         if (!(o instanceof ArrayDeque)) {
             return false;
         }
-        ArrayDeque<?> ad = (ArrayDeque<?>) o;
+        ArrayDeque<T> ad = (ArrayDeque<T>) o;
         if (ad.size() != size) {
             return false;
         }
