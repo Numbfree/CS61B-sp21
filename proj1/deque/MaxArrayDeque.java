@@ -2,12 +2,12 @@ package deque;
 
 import java.util.Comparator;
 
-public class MaxArrayDeque<AnyType> extends ArrayDeque<AnyType> {
-    private Comparator<AnyType> cmp;
+public class MaxArrayDeque<T> extends ArrayDeque<T> {
+    private Comparator<T> cmp;
 
-    public MaxArrayDeque(Comparator<AnyType> c) {
+    public MaxArrayDeque(Comparator<T> c) {
         size = 0;
-        items = (AnyType[]) new Object[8];
+        items = (T[]) new Object[8];
         nextFirst = 3;
         nextLast = 4;
         this.cmp = c;
@@ -17,7 +17,7 @@ public class MaxArrayDeque<AnyType> extends ArrayDeque<AnyType> {
      * returns the maximum element in the deque as governed by the previously given Comparator.
      * If the MaxArrayDeque is empty, simply return null.
      */
-    public AnyType max(Comparator<AnyType> c) {
+    public T max(Comparator<T> c) {
         if (isEmpty()) {
             return null;
         }
@@ -30,7 +30,7 @@ public class MaxArrayDeque<AnyType> extends ArrayDeque<AnyType> {
         return get(maxIndex);
     }
 
-    public AnyType max() {
+    public T max() {
         return max(cmp);
     }
 

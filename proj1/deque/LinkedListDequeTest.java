@@ -144,4 +144,21 @@ public class LinkedListDequeTest {
             assertEquals("Should have the same value", i, (double) lld1.removeLast(), 0.0);
         }
     }
+
+    /**
+     * Test the iterative and get function.
+     */
+    @Test
+    public void iterativeGetTest() {
+        LinkedListDeque<Integer> lld1 = new LinkedListDeque<Integer>();
+
+        for (int i = 0; i < 10; i++) {
+            lld1.addLast(i);
+        }
+
+        for (int i = 0; i < 10; i++){
+            assertEquals("Should have the same value", (double) i, (double) lld1.get(i), 0.0);
+        }
+
+    }
 }
