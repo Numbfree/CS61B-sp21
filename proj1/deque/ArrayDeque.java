@@ -3,12 +3,12 @@ package deque;
 import java.util.Iterator;
 import java.util.Objects;
 
-public class ArrayDeque<AnyType> {
-    private AnyType[] items;
-    private int size;
-    private int nextFirst;
-    private int nextLast;
-    private double Faction = 0.25;
+public class ArrayDeque<AnyType> implements Deque<AnyType>, Iterable<AnyType> {
+    protected AnyType[] items;
+    protected int size;
+    protected int nextFirst;
+    protected int nextLast;
+    protected double Faction = 0.25;
 
 
     public ArrayDeque() {
@@ -26,6 +26,7 @@ public class ArrayDeque<AnyType> {
         nextLast = 4;
     }
 
+    @Override
     public void addFirst(AnyType item) {
         if (size == items.length) {
             this.resize(size * 2);
@@ -34,6 +35,8 @@ public class ArrayDeque<AnyType> {
         size += 1;
         nextFirst = minusOne(nextFirst);
     }
+
+    @Override
     public void addLast(AnyType item) {
         if (size == items.length) {
             this.resize(size * 2);
@@ -43,14 +46,17 @@ public class ArrayDeque<AnyType> {
         nextLast = addOne(nextLast);
     }
 
+    @Override
     public boolean isEmpty() {
         return size == 0;
     }
 
+    @Override
     public int size() {
         return size;
     }
 
+    @Override
     public AnyType removeFirst() {
         if (size == 0) {
             return null;
@@ -67,6 +73,7 @@ public class ArrayDeque<AnyType> {
         return item;
     }
 
+    @Override
     public AnyType removeLast() {
         if (size == 0) {
             return null;
@@ -83,12 +90,59 @@ public class ArrayDeque<AnyType> {
         return item;
     }
 
+    @Override
     public AnyType get(int index) {
         if (size <= index || index < 0) {
             return null;
         }
         return items[(nextFirst + 1 + index) % items.length];
     }
+
+    public Iterator<AnyType> iterator() {
+        return new ArrayDequeIterator();
+    }
+
+    private class ArrayDequeIterator implements Iterator<AnyType> {
+        private int currentIndex;
+
+        ArrayDequeIterator() {
+            currentIndex = 0;
+        }
+
+        public boolean hasNext() {
+            return currentIndex < size;
+        }
+
+        public AnyType next() {
+            AnyType item = get(currentIndex);
+            currentIndex += 1;
+            return item;
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        }
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof ArrayDeque)) {
+            return false;
+        }
+        ArrayDeque<?> ad = (ArrayDeque<?>) o;
+        if (ad.size() != size) {
+            return false;
+        }
+        for (int i = 0; i < size; i++) {
+            if (ad.get(i) != get(i)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     private int addOne(int number) {
         if (number + 1 > items.length -1) {
@@ -131,6 +185,7 @@ public class ArrayDeque<AnyType> {
         items = newItems;
     }
 
+    @Override
     public void printDeque() {
         int current = addOne(nextFirst);
         for (int i = 0; i < size; i++) {
