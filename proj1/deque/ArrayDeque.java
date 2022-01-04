@@ -183,15 +183,4 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         System.out.println();
     }
 
-    public void printArray() {
-        for (int i = 0; i < items.length; i++) {
-            if (items[i] == null) {
-                System.out.print("n" + " ");
-            } else {
-                System.out.print(items[i] + " ");
-            }
-        }
-        System.out.println();
-    }
-
 }
